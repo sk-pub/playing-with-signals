@@ -1,15 +1,17 @@
 import { Signal } from "signal-polyfill";
 import { effect } from "./effect";
+import { html, render } from "lit";
 
-
-export function setupCounter(element: HTMLButtonElement) {
+export function setupCounter(element: HTMLElement) {
   let counter = new Signal.State(0);
+
   effect(() => {
-    element.innerHTML = `count is ${counter.get()}`;
-  });
+    let template = html`
+      <button id="counter" type="button" @click=${() => counter.set(counter.get() + 1)}>
+        count is ${counter.get()}
+      </button>
+    `;
 
-
-  element.addEventListener('click', () => {
-    counter.set(counter.get() + 1);
+    render(template, element);
   });
 }
